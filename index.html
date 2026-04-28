@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>보험설계사 적성 테스트 | 간병헬퍼</title>
+  <meta property="og:title" content="보험설계사 적성 테스트! 나는 타고난 설계사일까?" />
+  <meta property="og:description" content="12문항으로 판가름나는 보험설계사 적성고사. 당신은 합격입니까?" />
+  <meta id="og-url" property="og:url" content="https://doun141.github.io/insuranve-test/" />
+  <meta id="og-image" property="og:image" content="https://doun141.github.io/insuranve-test/og-image.png" />
+  <meta property="og:image:width" content="864" />
+  <meta property="og:image:height" content="1821" />
+  <meta property="og:image:type" content="image/png" />
+  <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      /* Trendy psych-test palette */
+      --bg: #FFF4E0;
+      --bg-2: #FFE9C7;
+      --ink: #1F1147;
+      --ink-soft: #5B4E80;
+      --primary: #8B7CF6;       /* lavender pop */
+      --primary-deep: #6E5BE3;
+      --accent: #FFD23F;        /* sunshine yellow */
+      --pop-pink: #FF7AAB;
+      --pop-mint: #6EE7C7;
+      --pop-peach: #FFB084;
+      --white: #FFFFFF;
+      --line: #1F1147;
+      --gray-100: #F5F1E8;
+      --gray-200: #E8DFCB;
+      --gray-400: #9C9388;
+      --gray-600: #6B6359;
+      --shadow-hard: 4px 4px 0 var(--ink);
+      --shadow-hard-lg: 6px 6px 0 var(--ink);
+      --radius: 22px;
+      --radius-lg: 28px;
+      --font: 'Noto Sans KR', -apple-system, sans-serif;
+      --font-disp: 'Black Han Sans', 'Noto Sans KR', sans-serif;
+      --font-hand: 'Gaegu', 'Noto Sans KR', cursive;
+    }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(139,124,246,0.10) 0, transparent 35%),
+        radial-gradient(circle at 88% 8%, rgba(255,210,63,0.18) 0, transparent 30%),
+        radial-gradient(circle at 90% 85%, rgba(255,122,171,0.10) 0, transparent 35%);
+      background-attachment: fixed;
+      min-height: 100vh; color: var(--ink); -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.3px;
+    }
+
+    /* ── LAYOUT ── */
+    #app { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-bottom: 60px; position: relative; overflow-x: hidden; }
+    .screen { width: 100%; max-width: 480px; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
+    .screen-pad { width: 100%; padding: 0 18px; }
+
+    /* ── BACKGROUND STICKERS ── */
+    .bg-deco { position: absolute; pointer-events: none; z-index: 0; }
+    .bg-deco.s1 { top: 70px; left: 10px; width: 40px; height: 40px; }
+    .bg-deco.s2 { top: 200px; right: 8px; width: 50px; height: 50px; transform: rotate(15deg); }
+    .bg-deco.s3 { top: 480px; left: 6px; width: 36px; height: 36px; transform: rotate(-12deg); }
+
+    /* ── HEADER ── */
+    .header { width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 16px 22px 10px; position: relative; z-index: 2; }
+    .header-logo-wrap { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .header-logo-mark { width: 32px; height: 32px; background: var(--primary); border: 2.5px solid var(--ink); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 0 var(--ink); }
+    .header-logo-mark::after { content: ''; width: 14px; height: 14px; background: var(--accent); border: 2px solid var(--ink); border-radius: 50%; }
+    .header-brand { font-family: var(--font-disp); font-size: 18px; color: var(--ink); letter-spacing: -0.5px; }
+    .header-link { font-size: 12px; color: var(--ink); text-decoration: none; font-weight: 700; background: var(--white); border: 2px solid var(--ink); padding: 6px 12px; border-radius: 99px; box-shadow: 2px 2px 0 var(--ink); transition: transform 0.15s; }
+    .header-link:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+
+    /* ── CARD ── */
+    .card { background: var(--white); border: 2.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow-hard-lg); width: 100%; overflow: hidden; }
+    .card-body { padding: 26px 22px; }
+
+    /* ── PROGRESS ── */
+    .progress-wrap { width: 100%; max-width: 480px; padding: 4px 18px 16px; }
+    .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .progress-label { font-family: var(--font-hand); font-size: 18px; font-weight: 700; color: var(--ink); }
+    .progress-count { font-family: var(--font-disp); font-size: 18px; color: var(--primary-deep); letter-spacing: 0.5px; }
+    .progress-count em { color: var(--ink); font-style: normal; font-size: 14px; opacity: 0.5; }
+    .progress-track { height: 14px; background: var(--white); border: 2.5px solid var(--ink); border-radius: 99px; overflow: hidden; box-shadow: 3px 3px 0 var(--ink); padding: 2px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--pop-pink)); border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1); position: relative; }
+    .progress-fill::after { content: ''; position: absolute; top: 50%; right: 4px; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translateY(-50%); opacity: 0.8; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: block; width: 100%; padding: 17px;
+      font-family: var(--font); font-size: 16px; font-weight: 800;
+      border: 2.5px solid var(--ink); border-radius: 16px;
+      cursor: pointer; transition: transform 0.12s ease, box-shadow 0.12s ease;
+      letter-spacing: -0.3px; text-align: center;
+      box-shadow: var(--shadow-hard);
+    }
+    .btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+    .btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-kakao { background: #FEE500; color: #191919; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+    .btn-navy { background: var(--ink); color: var(--accent); }
+    .btn-pink { background: var(--pop-pink); color: white; }
+    .btn-yellow { background: var(--accent); color: var(--ink); }
+    .btn-white { background: white; color: var(--ink); }
+    .btn-outline { background: var(--bg); color: var(--ink); font-size: 14px; padding: 13px; text-decoration: none; }
+    .btn-retry { background: var(--gray-100); color: var(--ink); font-size: 14px; padding: 14px; }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: var(--shadow-hard) !important; }
+
+    /* ── OPTIONS ── */
+    .option {
+      display: flex; align-items: flex-start; gap: 12px;
+      width: 100%; padding: 18px 18px;
+      font-family: var(--font); font-size: 15.5px; font-weight: 600;
+      border: 2.5px solid var(--ink); border-radius: 18px;
+      background: white; color: var(--ink);
+      cursor: pointer; text-align: left;
+      transition: transform 0.12s, box-shadow 0.12s, background 0.15s;
+      line-height: 1.5; letter-spacing: -0.3px;
+      box-shadow: 3px 3px 0 var(--ink);
+      -webkit-tap-highlight-color: transparent; outline: none;
+    }
+    .option:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); background: #FFFAEB; }
+    .option:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+    .option-label {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent); color: var(--ink); border: 2.5px solid var(--ink);
+      font-family: var(--font-disp); font-size: 16px; flex-shrink: 0;
+      line-height: 1;
+    }
+    .option:nth-child(2) .option-label { background: var(--pop-mint); }
+    .option-text { flex: 1; padding-top: 4px; }
+
+    /* ── FORM ── */
+    .form-group { margin-bottom: 14px; }
+    .form-label { font-size: 13px; font-weight: 800; color: var(--ink); margin-bottom: 6px; display: block; }
+    .form-label em { color: var(--pop-pink); font-style: normal; }
+    .form-input { width: 100%; padding: 14px 16px; font-family: var(--font); font-size: 15px; border: 2.5px solid var(--ink); border-radius: 14px; background: white; color: var(--ink); outline: none; transition: box-shadow 0.15s, transform 0.15s; box-shadow: 3px 3px 0 var(--ink); }
+    .form-input:focus { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--primary); }
+    .form-input.error { box-shadow: 3px 3px 0 #DC2626; border-color: #DC2626; }
+    .form-error { font-size: 12px; color: #DC2626; margin-top: 6px; font-weight: 700; }
+
+    /* ── PRIZE ── */
+    .prize-list { display: flex; flex-direction: column; gap: 10px; }
+    .prize-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--white); border: 2.5px solid var(--ink); border-radius: 16px;
+      padding: 12px 14px; box-shadow: 3px 3px 0 var(--ink);
+      position: relative;
+    }
+    .prize-item.gold { background: #FFF6CC; }
+    .prize-item.silver { background: #F0EDFF; }
+    .prize-item.bronze { background: #FFE5D6; }
+    .prize-rank {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 50%;
+      font-size: 20px; flex-shrink: 0;
+      background: white; border: 2.5px solid var(--ink);
+    }
+    .prize-info { flex: 1; min-width: 0; }
+    .prize-name { font-size: 14px; font-weight: 800; color: var(--ink); }
+    .prize-sub { font-size: 12px; color: var(--ink-soft); margin-top: 2px; font-weight: 600; }
+    .prize-badge {
+      font-family: var(--font-disp); font-size: 13px; color: var(--ink);
+      background: var(--accent); border: 2px solid var(--ink); padding: 3px 10px;
+      border-radius: 99px; letter-spacing: 0.5px;
+    }
+
+    /* ── CHECKBOX ── */
+    .check-wrap { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+    .check-box {
+      width: 26px; height: 26px; border: 2.5px solid var(--ink); border-radius: 8px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; margin-top: 1px; background: white;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .check-box.checked { background: var(--primary); }
+    .check-text { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 600; }
+
+    /* ── KAKAO CHANNEL CARD ── */
+    .kakao-channel-card {
+      background: #FFF8D6; border: 2.5px solid var(--ink); border-radius: 18px;
+      padding: 18px; margin: 22px 0 16px;
+      box-shadow: 4px 4px 0 var(--ink); position: relative;
+    }
+    .kakao-channel-card::before {
+      content: 'BONUS!'; position: absolute; top: -14px; right: 14px;
+      background: var(--pop-pink); color: white;
+      font-family: var(--font-disp); font-size: 14px;
+      padding: 4px 12px; border-radius: 99px; border: 2.5px solid var(--ink);
+      letter-spacing: 1px; transform: rotate(6deg);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .kakao-channel-title { font-size: 15px; font-weight: 900; color: var(--ink); margin-bottom: 4px; line-height: 1.4; }
+    .kakao-bullet { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink); line-height: 1.55; font-weight: 500; }
+    .kakao-bullet::before { content: '✦'; color: var(--primary-deep); font-weight: 700; flex-shrink: 0; line-height: 1.5; }
+    .kakao-callout {
+      background: white; border: 2px dashed var(--ink); border-radius: 12px;
+      padding: 10px 12px; margin: 14px 0; font-size: 12px;
+      color: var(--ink); font-weight: 700; line-height: 1.55; text-align: center;
+    }
+
+    /* ── SCORE BAR ── */
+    .score-bar-wrap { margin: 18px 0; }
+    .score-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--ink-soft); margin-bottom: 8px; }
+    .score-label-val { font-family: var(--font-disp); font-size: 18px; }
+    .score-track { height: 16px; background: white; border: 2.5px solid var(--ink); border-radius: 99px; overflow: hidden; box-shadow: 3px 3px 0 var(--ink); padding: 2px; }
+    .score-fill { height: 100%; border-radius: 99px; transition: width 0.9s cubic-bezier(.4,0,.2,1) 0.3s; }
+
+    /* ── WEAK AREA ── */
+    .weak-area-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .weak-area-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: white; border: 2.5px solid var(--ink); border-radius: 14px;
+      padding: 14px; box-shadow: 3px 3px 0 var(--ink);
+    }
+    .weak-area-icon-box {
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: var(--pop-peach); border: 2.5px solid var(--ink); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-disp); font-size: 18px; color: var(--ink);
+    }
+    .weak-area-text { font-size: 13px; color: var(--ink); line-height: 1.6; font-weight: 500; flex: 1; }
+    .weak-area-label { font-size: 12px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+    .weak-area-tag {
+      display: inline-block; background: var(--accent); color: var(--ink);
+      font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 99px;
+      border: 1.5px solid var(--ink); margin-left: 6px; vertical-align: 1px;
+    }
+
+    /* ── INTRO HERO ── */
+    .intro-hero {
+      width: 100%; padding: 0 18px; margin: 8px 0 22px; position: relative;
+    }
+    .hero-card {
+      background: var(--primary); color: white;
+      border: 2.5px solid var(--ink); border-radius: 28px;
+      padding: 28px 22px 32px; text-align: center; position: relative;
+      box-shadow: 6px 6px 0 var(--ink); overflow: hidden;
+    }
+    .hero-card::before {
+      content: ''; position: absolute; top: -30px; right: -30px;
+      width: 140px; height: 140px; background: var(--accent);
+      border-radius: 50%; opacity: 0.55;
+    }
+    .hero-card::after {
+      content: ''; position: absolute; bottom: -40px; left: -30px;
+      width: 110px; height: 110px; background: var(--pop-pink);
+      border-radius: 50%; opacity: 0.5;
+    }
+    .hero-tag {
+      position: relative; z-index: 1;
+      display: inline-block; background: var(--accent); color: var(--ink);
+      font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 99px;
+      border: 2.5px solid var(--ink); margin-bottom: 16px;
+      box-shadow: 2px 2px 0 var(--ink); transform: rotate(-2deg);
+    }
+    .hero-title {
+      position: relative; z-index: 1;
+      font-family: var(--font-disp); color: white;
+      font-size: 30px; line-height: 1.25; letter-spacing: -1px;
+    }
+    .hero-title .highlight {
+      color: var(--accent); position: relative; display: inline-block;
+    }
+    .hero-title .underline {
+      display: inline-block; position: relative;
+    }
+    .hero-title .underline::after {
+      content: ''; position: absolute; left: -3px; right: -3px; bottom: 2px;
+      height: 8px; background: var(--pop-pink); z-index: -1; border-radius: 4px;
+      transform: skewX(-6deg);
+    }
+    .hero-stats {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; gap: 8px; margin-top: 22px;
+    }
+    .hero-stat {
+      flex: 1; max-width: 100px;
+      background: white; border: 2.5px solid var(--ink); border-radius: 14px;
+      padding: 10px 6px; box-shadow: 3px 3px 0 var(--ink);
+    }
+    .hero-stat-value { font-family: var(--font-disp); font-size: 22px; color: var(--ink); line-height: 1; }
+    .hero-stat-label { font-size: 10.5px; color: var(--ink-soft); margin-top: 4px; font-weight: 700; }
+
+    .hero-doodle { position: absolute; pointer-events: none; }
+    .hero-doodle.d1 { top: -8px; right: 28px; transform: rotate(15deg); }
+    .hero-doodle.d2 { bottom: -16px; left: 30px; transform: rotate(-10deg); }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-family: var(--font-hand); font-size: 22px; font-weight: 700;
+      color: var(--ink); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-title-dot {
+      width: 10px; height: 10px; background: var(--pop-pink);
+      border: 2px solid var(--ink); border-radius: 50%;
+    }
+
+    /* ── QUESTION ── */
+    .q-num-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--accent);
+      font-family: var(--font-disp); font-size: 16px; padding: 6px 14px 5px;
+      border-radius: 99px; letter-spacing: 1.5px; margin-bottom: 16px;
+    }
+    .q-num-pill .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+    .question-text {
+      font-family: var(--font); font-size: 21px; font-weight: 900; color: var(--ink);
+      line-height: 1.4; letter-spacing: -0.7px; margin-bottom: 22px;
+      word-break: keep-all;
+    }
+    .question-text mark {
+      background: var(--accent); padding: 0 4px; border-radius: 4px;
+      box-decoration-break: clone; -webkit-box-decoration-break: clone;
+    }
+    .options-wrap { display: flex; flex-direction: column; gap: 12px; }
+
+    /* ── RESULT HEADER ── */
+    .result-header {
+      position: relative; padding: 32px 22px 28px; text-align: center;
+      border-bottom: 2.5px solid var(--ink); overflow: hidden;
+    }
+    .result-confetti { position: absolute; pointer-events: none; }
+    .result-emoji-wrap {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 92px; height: 92px; border-radius: 50%;
+      background: white; border: 2.5px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink); margin-bottom: 14px;
+      font-size: 52px; animation: bounceIn 0.7s cubic-bezier(.34,1.56,.64,1);
+    }
+    .result-grade-pill {
+      display: inline-block;
+      font-family: var(--font-disp); font-size: 18px;
+      padding: 6px 18px 5px; border-radius: 99px;
+      border: 2.5px solid var(--ink); margin-bottom: 12px;
+      box-shadow: 3px 3px 0 var(--ink); letter-spacing: 1px;
+    }
+    .result-subtitle {
+      font-size: 17px; font-weight: 800; color: var(--ink);
+      letter-spacing: -0.5px; line-height: 1.4; word-break: keep-all;
+    }
+
+    /* ── DIVIDERS / MISC ── */
+    .divider { height: 2px; background: repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 12px); margin: 22px 0; opacity: 0.4; }
+    .big-emoji { font-size: 72px; display: inline-block; animation: bounceIn 0.6s ease-out; }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { animation: fadeIn 0.35s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounceIn { 0% { transform: scale(0.4); opacity: 0; } 60% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes wiggle { 0%,100%{transform:rotate(-3deg);} 50%{transform:rotate(3deg);} }
+    .wiggle { animation: wiggle 2s ease-in-out infinite; transform-origin: center; }
+
+    @media (max-width: 400px) {
+      .hero-title { font-size: 25px; }
+      .question-text { font-size: 19px; }
+      .card-body { padding: 22px 18px; }
+      .hero-stat-value { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+
+// =====================================================
+const KAKAO_APP_KEY      = '0c6d71fb6d93b9d2ec09eb5643928f04';
+const SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbx2xOlQ6Ngmrg5f1Rj_ha03ahq4CNDdpO5tU0cZzVvG0TWVDqExJTsIKO5oRCyposo/exec';
+// =====================================================
+
+const state = {
+  screen: 'intro',
+  currentQ: 0,
+  answers: [],
+  score: 0,
+  grade: '',
+  weakAreas: [],
+  sharedGrade: '',
+  sharedScore: 0,
+  form: { name: '', phone: '', ga: '' },
+  errors: {},
+  hasKakao: false,
+  kakaoLinkClicked: false,
+  submitting: false,
+};
+
+const QUESTIONS = [
+  { id:1,  area:'관계관리', text:"고객이 '생각해볼게요'라고 했을 때 나는?",
+    a:"다음 미팅 일정을 그 자리에서 바로 잡는다", b:"\"언제든 연락주세요\" 하고 기다린다", correct:1 },
+  { id:2,  area:'멘탈관리', text:"실적이 2달 연속 저조할 때 나는?",
+    a:"다음 달엔 나아지겠지 생각하며 버틴다", b:"원인을 분석하고 활동량을 늘린다", correct:0 },
+  { id:3,  area:'정직신뢰', text:"단점이 있는 상품을 고객에게 권해야 할 때는?",
+    a:"장단점을 모두 솔직하게 설명한다", b:"장점 위주로만 설명하고 단점은 최소화한다", correct:1 },
+  { id:4,  area:'성실함', text:"월요일 아침, 첫 번째로 하는 일은?",
+    a:"오늘 뭐할지 계획부터 세운다", b:"기존 고객 관리 연락을 먼저 한다", correct:0 },
+  { id:5,  area:'공감소통', text:"고객이 갑자기 화를 낼 때 나는?",
+    a:"억울하지만 참고 해명한다", b:"일단 충분히 듣고 공감한 뒤 대응한다", correct:0 },
+  { id:6,  area:'공감소통', text:"주말 오전, 고객에게 급한 연락이 왔다면?",
+    a:"확인하고 빠르게 답장한다", b:"월요일 업무 시간에 답한다", correct:1 },
+  { id:7,  area:'자기계발', text:"마지막으로 보험 관련 자료나 영업 책을 읽은 게 언제인가요?",
+    a:"기억이 잘 안 난다", b:"최근 1달 이내 (꾸준히 공부하는 편이다)", correct:0 },
+  { id:8,  area:'관계관리', text:"소개를 부탁할 최적의 타이밍은?",
+    a:"어느 정도 신뢰가 쌓인 후", b:"계약 직후, 만족도가 가장 높을 때", correct:0 },
+  { id:9,  area:'멘탈관리', text:"연속으로 거절을 3번 당했을 때 드는 생각은?",
+    a:"데이터가 쌓이는 과정이라 생각한다", b:"오늘은 내 날이 아닌 것 같다고 생각한다", correct:1 },
+  { id:10, area:'성실함', text:"고객 DB 관리는 얼마나 자주 하나요?",
+    a:"생각날 때마다 한다", b:"매일 또는 주 3회 이상 업데이트한다", correct:0 },
+  { id:11, area:'성실함', text:"고객 미팅 전날, 나는?",
+    a:"대략적인 흐름만 머릿속으로 정리한다", b:"고객 정보와 니즈를 복습하고 자료를 준비한다", correct:0 },
+  { id:12, area:'동기', text:"설계사를 하는 가장 큰 이유는?",
+    a:"내 노력만큼 수입이 따라오는 구조가 좋아서", b:"고객의 삶을 지키는 일이 보람 있어서", correct:0 },
+];
+
+const AREA_FEEDBACK = {
+  관계관리: { tag:'관계', label:'관계 관리', msg:'고객과의 지속적인 관계 유지가 아직 부족해요. 계약 후에도 꾸준히 연락하는 습관이 재계약율을 높입니다.' },
+  멘탈관리: { tag:'멘탈', label:'멘탈 관리', msg:'거절과 슬럼프를 이겨내는 멘탈이 아직 단단하지 않아요. 거절을 데이터로 보는 시각을 길러보세요.' },
+  정직신뢰: { tag:'신뢰', label:'정직 · 신뢰', msg:'단기 실적보다 장기 신뢰가 중요합니다. 고객에게 솔직한 정보를 제공하는 것이 결국 더 큰 성과로 돌아와요.' },
+  성실함:   { tag:'성실', label:'성실함', msg:'체계적인 고객 관리와 꾸준한 활동량이 부족해요. 매일 작은 루틴을 만드는 것부터 시작해보세요.' },
+  공감소통: { tag:'소통', label:'공감 · 소통', msg:'고객의 감정을 먼저 읽고 반응하는 능력이 필요해요. 듣는 것이 말하는 것보다 훨씬 강력한 영업 도구입니다.' },
+  자기계발: { tag:'성장', label:'자기계발', msg:'꾸준히 공부하는 설계사가 살아남습니다. 한 달에 책 한 권이나 상품 교육 하나씩 챙겨보세요.' },
+  동기:     { tag:'동기', label:'영업 동기', msg:'수입도 중요하지만 고객 중심의 사명감이 있을 때 더 오래 버티고 성장할 수 있어요.' },
+};
+
+const RESULTS = {
+  pass:        { emoji:'🏆', title:'최종합격', subtitle:'당신은 타고난 보험설계사!', desc:'고객을 진심으로 대하는 태도, 성실한 관리 습관, 정직한 영업 방식까지. 보험설계사로서 갖춰야 할 핵심 자질을 완벽하게 갖추셨습니다.', headerBg:'#6EE7C7', pillBg:'#FFD23F', barColor:'#16A34A', showRetry:false },
+  conditional: { emoji:'✨', title:'조건부합격', subtitle:'조금만 다듬으면 최고가 될 수 있어요', desc:'기본기는 탄탄합니다. 아래 약점만 보완하면 훨씬 더 뛰어난 설계사로 성장할 수 있어요.', headerBg:'#A8C5FF', pillBg:'#FFD23F', barColor:'#6E5BE3', showRetry:true },
+  retake:      { emoji:'📝', title:'재시험', subtitle:'아직 설계사의 길은 멀었어요', desc:'기본적인 영업 마인드는 있지만 아래 영역에서 개선이 필요합니다. 지금 알았으니 충분히 바꿀 수 있어요.', headerBg:'#FFB084', pillBg:'#FFFFFF', barColor:'#D97706', showRetry:true },
+  fail:        { emoji:'💧', title:'불합격', subtitle:'솔직히… 재고해보시는 건 어떨까요?', desc:'현재의 습관과 마인드셋으로는 성장하기 어려울 수 있습니다. 아래 피드백부터 시작해보세요.', headerBg:'#FF7AAB', pillBg:'#FFFFFF', barColor:'#DC2626', showRetry:true },
+};
+
+// ── UTILITIES ──
+function getGrade(s) { if (s>=10) return 'pass'; if (s>=7) return 'conditional'; if (s>=4) return 'retake'; return 'fail'; }
+function calcWeakAreas(answers) {
+  const m = {};
+  answers.forEach((chosen, i) => {
+    const correct = QUESTIONS[i].correct; // 0=A정답, 1=B정답 (undefined이면 A정답)
+    const isCorrect = correct === undefined ? chosen === 1 : chosen === correct;
+    if (!isCorrect) { const a = QUESTIONS[i].area; m[a] = (m[a]||0)+1; }
+  });
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([a])=>a);
+}
+function validateForm(f) {
+  const e={};
+  if(!f.name.trim()) e.name='이름을 입력해주세요';
+  if(!f.phone.trim()) e.phone='연락처를 입력해주세요';
+  else if(!/^[0-9]{10,11}$/.test(f.phone.replace(/-/g,''))) e.phone='올바른 연락처를 입력해주세요 (숫자만)';
+  if(!f.ga.trim()) e.ga='소속 GA를 입력해주세요';
+  return e;
+}
+function saveEntry(data) {
+  try {
+    const list = JSON.parse(localStorage.getItem('helper_entries')||'[]');
+    list.push({...data, ts:new Date().toISOString()});
+    localStorage.setItem('helper_entries', JSON.stringify(list));
+  } catch(e) { console.error(e); }
+  sendToSheets(data);
+}
+async function sendToSheets(data) {
+  if (SHEETS_WEBHOOK_URL==='YOUR_APPS_SCRIPT_URL') return;
+  try {
+    await fetch(SHEETS_WEBHOOK_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify({
+        ts:new Date().toLocaleString('ko-KR'),
+        name:data.name, phone:data.phone, ga:data.ga,
+        grade:data.grade, score:data.score,
+        weakAreas:(data.weakAreas||[]).join(', '),
+        hasKakao:data.hasKakao?'✅':'❌',
+      }),
+    });
+  } catch(e) { console.error('Sheets error:', e); }
+}
+function showToast(msg) {
+  const old=document.getElementById('toast'); if(old) old.remove();
+  const t=document.createElement('div'); t.id='toast'; t.textContent=msg;
+  Object.assign(t.style, {
+    position:'fixed', bottom:'24px', left:'50%',
+    transform:'translateX(-50%) translateY(20px)',
+    background:'var(--ink)', color:'white', padding:'13px 22px',
+    borderRadius:'99px', fontSize:'13px', fontWeight:'700',
+    border:'2.5px solid var(--ink)', boxShadow:'4px 4px 0 var(--accent)',
+    zIndex:'9999', opacity:'0', transition:'all 0.3s ease', whiteSpace:'nowrap',
+    fontFamily:'var(--font)', letterSpacing:'-0.3px',
+  });
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>{ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(10px)'; setTimeout(()=>t.remove(),300); }, 3000);
+}
+
+function getBaseUrl() { return 'https://doun141.github.io/insuranve-test/'; }
+function getShareUrl() { return `${getBaseUrl()}?grade=${state.grade}&score=${state.score}`; }
+function setOgMeta() {
+  const base=getBaseUrl();
+  const u=document.getElementById('og-url'); const i=document.getElementById('og-image');
+  if(u) u.setAttribute('content', base);
+  if(i) i.setAttribute('content', base+'og-image.png');
+}
+
+function initKakao() {
+  try { if (window.Kakao && !window.Kakao.isInitialized()) window.Kakao.init(KAKAO_APP_KEY); }
+  catch(e) { console.error('Kakao init:', e); }
+}
+
+function shareKakao() {
+  const testUrl = 'https://doun141.github.io/insuranve-test/';
+
+  if (window.Kakao?.isInitialized()) {
+    try {
+      window.Kakao.Share.sendScrap({
+        requestUrl: testUrl,
+        templateArgs: {},
+      });
+      return;
+    } catch(e) {
+      console.error('Kakao sendScrap error:', e);
+    }
+  }
+
+  // fallback
+  if (navigator.share) {
+    navigator.share({ title: '보험설계사 적성 테스트', url: testUrl }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(testUrl)
+      .then(() => showToast('링크가 복사되었습니다!'))
+      .catch(() => showToast('링크: ' + testUrl));
+  }
+}
+function fallbackShare(url) {
+  const u=url||getShareUrl();
+  if(navigator.share) navigator.share({title:'보험설계사 적성 테스트', url:u}).catch(()=>{});
+  else navigator.clipboard.writeText(u).then(()=>showToast('🔗 링크가 복사되었습니다!')).catch(()=>showToast('주소창 링크를 복사해 공유해 주세요'));
+}
+
+// ── DECORATIVE SVG SNIPPETS ──
+const SVG_STAR = `<svg width="100%" height="100%" viewBox="0 0 40 40" fill="none"><path d="M20 4 L23 16 L36 17 L26 25 L29 38 L20 31 L11 38 L14 25 L4 17 L17 16 Z" fill="#FFD23F" stroke="#1F1147" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+const SVG_BURST = `<svg width="100%" height="100%" viewBox="0 0 50 50" fill="none"><g stroke="#1F1147" stroke-width="2.5" stroke-linecap="round"><line x1="25" y1="4" x2="25" y2="14"/><line x1="25" y1="36" x2="25" y2="46"/><line x1="4" y1="25" x2="14" y2="25"/><line x1="36" y1="25" x2="46" y2="25"/><line x1="9" y1="9" x2="16" y2="16"/><line x1="34" y1="34" x2="41" y2="41"/><line x1="9" y1="41" x2="16" y2="34"/><line x1="34" y1="16" x2="41" y2="9"/></g><circle cx="25" cy="25" r="6" fill="#FF7AAB" stroke="#1F1147" stroke-width="2.5"/></svg>`;
+const SVG_HEART = `<svg width="100%" height="100%" viewBox="0 0 36 36" fill="none"><path d="M18 31 C 6 22, 4 13, 11 9 C 14.5 7, 17 9, 18 12 C 19 9, 21.5 7, 25 9 C 32 13, 30 22, 18 31 Z" fill="#FF7AAB" stroke="#1F1147" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+const SVG_SQUIGGLE = `<svg width="60" height="14" viewBox="0 0 60 14" fill="none"><path d="M2 7 Q 10 1, 17 7 T 32 7 T 47 7 T 58 7" stroke="#1F1147" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>`;
+const KAKAO_SVG = `<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.582 2 2 4.91 2 8.5c0 2.3 1.512 4.32 3.8 5.5L5 17l3.6-2.4c.46.07.93.1 1.4.1 4.418 0 8-2.91 8-6.5S14.418 2 10 2z" fill="#191919"/></svg>`;
+const CHECK_SVG = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+// ── RENDER ──
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  app.appendChild(createHeader());
+  const map = { intro:renderIntro, shared:renderShared, test:renderTest, result:renderResult, apply:renderApply, complete:renderComplete };
+  const content = (map[state.screen] || renderIntro)();
+  content.classList.add('fade-in');
+  app.appendChild(content);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function createHeader() {
+  const el = document.createElement('div');
+  el.className = 'header';
+  el.innerHTML = `
+    <a href="https://docs.thehelper.io/" target="_blank" class="header-logo-wrap">
+      <span class="header-logo-mark"></span>
+      <span class="header-brand">간병헬퍼</span>
+    </a>
+    <a href="https://docs.thehelper.io/" target="_blank" class="header-link">홈 →</a>`;
+  return el;
+}
+
+// ── SCREEN: INTRO ──
+function renderIntro() {
+  const wrap = document.createElement('div');
+  wrap.className = 'screen';
+  wrap.innerHTML = `
+    <div class="intro-hero">
+      <div class="hero-card">
+        <div class="hero-tag">📋 보험설계사 전용 심테</div>
+        <div class="hero-title">
+          <span class="underline">3분 만에 확인하는</span><br>
+          <span class="highlight">보험설계사</span><br>
+          <span>적성 테스트</span>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">12</div>
+            <div class="hero-stat-label">문항 · 3분</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">4</div>
+            <div class="hero-stat-label">단계 판정</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">🎁</div>
+            <div class="hero-stat-label">경품 추첨</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-pad">
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-body">
+          <div class="section-title">
+            <span class="section-title-dot"></span>
+            적성테스트하고 경품 받자!
+          </div>
+          <div class="prize-list">
+            <div class="prize-item gold">
+              <div class="prize-rank">🥇</div>
+              <div class="prize-info">
+                <div class="prize-name">에어팟 (4세대)</div>
+                <div class="prize-sub">1명 당첨</div>
+              </div>
+              <div class="prize-badge">1등</div>
+            </div>
+            <div class="prize-item silver">
+              <div class="prize-rank">🥈</div>
+              <div class="prize-info">
+                <div class="prize-name">배달의민족 쿠폰 3만원</div>
+                <div class="prize-sub">5명 당첨</div>
+              </div>
+              <div class="prize-badge" style="background:var(--pop-mint);">2등</div>
+            </div>
+            <div class="prize-item bronze">
+              <div class="prize-rank">🥉</div>
+              <div class="prize-info">
+                <div class="prize-name">스타벅스 상품권 1만원</div>
+                <div class="prize-sub">10명 당첨</div>
+              </div>
+              <div class="prize-badge" style="background:var(--pop-pink); color:white;">3등</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-bottom:14px;">
+        ${SVG_SQUIGGLE}
+        <div style="font-family:var(--font-hand); font-size:18px; color:var(--ink-soft); margin-top:4px;">자, 시작해볼까?</div>
+      </div>
+      <button class="btn btn-primary wiggle" onclick="startTest()" style="font-size:18px; padding:20px;">테스트 시작하기 →</button>
+    </div>`;
+  return wrap;
+}
+
+// ── SCREEN: SHARED ──
+function renderShared() {
+  const result = RESULTS[state.sharedGrade] || RESULTS.pass;
+  const pct = Math.round((state.sharedScore/QUESTIONS.length)*100);
+  const wrap = document.createElement('div');
+  wrap.className = 'screen';
+  wrap.innerHTML = `
+    <div class="screen-pad" style="padding-top:8px;">
+      <div style="text-align:center; margin-bottom:18px;">
+        <div style="font-family:var(--font-hand); font-size:20px; color:var(--ink-soft);">친구의 결과를 보는 중!</div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="result-header" style="background:${result.headerBg};">
+          <div class="result-emoji-wrap">${result.emoji}</div>
+          <div class="result-grade-pill" style="background:${result.pillBg};">${result.title}</div>
+          <div class="result-subtitle">${result.subtitle}</div>
+        </div>
+        <div class="card-body">
+          <div class="score-bar-wrap">
+            <div class="score-label"><span>친구의 적성 점수</span><span class="score-label-val" style="color:${result.barColor};">${state.sharedScore} / 12</span></div>
+            <div class="score-track"><div class="score-fill" style="width:${pct}%;background:${result.barColor};"></div></div>
+          </div>
+          <p style="text-align:center; font-size:14px; color:var(--ink-soft); margin:14px 0 18px; font-weight:600; line-height:1.6;">
+            나의 적성은 어떨까? 🤔<br>3분 만에 알아보는 적성고사
+          </p>
+          <button class="btn btn-primary" onclick="startTest()">나도 테스트 해보기 →</button>
+        </div>
+      </div>
+    </div>`;
+  return wrap;
+}
+
+// ── SCREEN: TEST ──
+function renderTest() {
+  const q = QUESTIONS[state.currentQ];
+  const progress = (state.currentQ/QUESTIONS.length)*100;
+  const wrap = document.createElement('div');
+  wrap.className = 'screen';
+  wrap.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-header">
+        <span class="progress-label">진행 중...</span>
+        <span class="progress-count">${String(state.currentQ+1).padStart(2,'0')} <em>/ ${QUESTIONS.length}</em></span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
+    </div>
+    <div class="screen-pad">
+      <div class="card">
+        <div class="card-body">
+          <div class="q-num-pill"><span class="dot"></span> Q${state.currentQ+1}</div>
+          <div class="question-text">${q.text}</div>
+          <div class="options-wrap">
+            <button class="option"
+              ontouchend="event.preventDefault();selectAnswer(1,this)"
+              onclick="selectAnswer(1,this)">
+              <span class="option-label">A</span>
+              <span class="option-text">${q.a}</span>
+            </button>
+            <button class="option"
+              ontouchend="event.preventDefault();selectAnswer(0,this)"
+              onclick="selectAnswer(0,this)">
+              <span class="option-label">B</span>
+              <span class="option-text">${q.b}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  return wrap;
+}
+
+// ── SCREEN: RESULT ──
+function renderResult() {
+  const result = RESULTS[state.grade];
+  const pct = Math.round((state.score/QUESTIONS.length)*100);
+  const wrap = document.createElement('div');
+  wrap.className = 'screen';
+  wrap.innerHTML = `
+    <div class="screen-pad">
+      <div style="text-align:center; margin: 4px 0 14px;">
+        <div style="display:inline-block; font-family:var(--font-hand); font-size:18px; color:var(--ink); background:white; border:2.5px solid var(--ink); border-radius:99px; padding:6px 16px; box-shadow:3px 3px 0 var(--ink);">
+          📊 결과 발표!
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="result-header" style="background:${result.headerBg};">
+          <div class="result-emoji-wrap">${result.emoji}</div>
+          <div class="result-grade-pill" style="background:${result.pillBg};">${result.title}</div>
+          <div class="result-subtitle">${result.subtitle}</div>
+        </div>
+        <div class="card-body">
+          <div class="score-bar-wrap">
+            <div class="score-label"><span>적성 점수</span><span class="score-label-val" style="color:${result.barColor};">${state.score} / 12</span></div>
+            <div class="score-track"><div class="score-fill" id="scoreBar" style="width:0%;background:${result.barColor};"></div></div>
+          </div>
+          <p style="font-size:14px; color:var(--ink); line-height:1.7; margin-bottom:18px; font-weight:500;">${result.desc}</p>
+          ${buildFeedbackHTML(result)}
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:22px;">
+            <button class="btn btn-primary" onclick="goToApply()">🎁 경품 추첨 응모하기</button>
+            <button class="btn btn-kakao" onclick="shareKakao()">${KAKAO_SVG} 카카오톡으로 결과 공유</button>
+            ${result.showRetry ? `<button class="btn btn-retry" onclick="retryTest()">다시 풀어보기</button>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  setTimeout(()=>{ const b=document.getElementById('scoreBar'); if(b) b.style.width = pct+'%'; }, 100);
+  return wrap;
+}
+
+function buildFeedbackHTML(result) {
+  if (state.grade === 'pass') {
+    return `<div style="background:#FFF8D6; border:2.5px solid var(--ink); border-radius:14px; padding:14px 16px; box-shadow:3px 3px 0 var(--ink);">
+      <div style="font-family:var(--font-disp); font-size:14px; color:var(--ink); margin-bottom:6px; letter-spacing:1px;">✦ 종합 피드백</div>
+      <div style="font-size:13px; color:var(--ink); line-height:1.65; font-weight:500;">12가지 모든 자질에서 뛰어난 설계사예요. 꾸준한 자기계발로 업계 최고가 되어보세요!</div>
+    </div>`;
+  }
+  if (!state.weakAreas || !state.weakAreas.length) {
+    return `<div style="background:#FFF8D6; border:2.5px solid var(--ink); border-radius:14px; padding:14px 16px;">
+      <div style="font-size:13px; color:var(--ink); line-height:1.65; font-weight:500;">전반적으로 골고루 개선이 필요해요. 하나씩 차근차근 발전해 나가봐요!</div>
+    </div>`;
+  }
+  const items = state.weakAreas.map(area => {
+    const f = AREA_FEEDBACK[area]; if (!f) return '';
+    return `<div class="weak-area-item">
+      <div class="weak-area-text">
+        <div class="weak-area-label">${f.label} 보완 필요 <span class="weak-area-tag">개선</span></div>
+        ${f.msg}
+      </div>
+    </div>`;
+  }).join('');
+  return `<div>
+    <div style="font-family:var(--font-disp); font-size:15px; color:var(--ink); margin-bottom:12px; letter-spacing:1px;">✦ 맞춤 피드백</div>
+    <div class="weak-area-wrap">${items}</div>
+  </div>`;
+}
+
+// ── SCREEN: APPLY ──
+function renderApply() {
+  const result = RESULTS[state.grade];
+  const wrap = document.createElement('div');
+  wrap.className = 'screen';
+  wrap.innerHTML = `
+    <div class="screen-pad">
+      <div class="card">
+        <div style="background:${result.headerBg}; padding:20px 22px; text-align:center; border-bottom:2.5px solid var(--ink);">
+          <div style="font-family:var(--font-hand); font-size:16px; color:var(--ink); margin-bottom:4px;">나의 결과</div>
+          <div style="font-family:var(--font-disp); font-size:22px; color:var(--ink); letter-spacing:0.5px;">${result.emoji} ${result.title}</div>
+        </div>
+        <div class="card-body">
+          <div style="margin-bottom:18px;">
+            <div style="font-family:var(--font-disp); font-size:22px; color:var(--ink); letter-spacing:-0.5px; margin-bottom:6px;">🎁 경품 추첨 응모</div>
+            <div style="font-size:13.5px; color:var(--ink-soft); line-height:1.6; font-weight:600;">정보를 입력하고 에어팟에 도전해보세요!</div>
+            <div style="margin-top:8px; font-size:11px; color:var(--gray-400);">입력하신 정보는 경품 추첨 목적으로만 사용됩니다</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">이름 <em>*</em></label>
+            <input class="form-input ${state.errors.name?'error':''}" type="text" placeholder="홍길동" value="${state.form.name}" oninput="updateForm('name',this.value)" />
+            ${state.errors.name?`<div class="form-error">${state.errors.name}</div>`:''}
+          </div>
+          <div class="form-group">
+            <label class="form-label">연락처 <em>*</em></label>
+            <input class="form-input ${state.errors.phone?'error':''}" type="tel" placeholder="01012345678 (숫자만)" value="${state.form.phone}" oninput="updateForm('phone',this.value)" />
+            ${state.errors.phone?`<div class="form-error">${state.errors.phone}</div>`:''}
+          </div>
+          <div class="form-group">
+            <label class="form-label">소속 <em>*</em></label>
+            <input class="form-input ${state.errors.ga?'error':''}" type="text" placeholder="ex) 프라임에셋, 삼성생명 등" value="${state.form.ga}" oninput="updateForm('ga',this.value)" />
+            ${state.errors.ga?`<div class="form-error">${state.errors.ga}</div>`:''}
+          </div>
+
+          <div class="kakao-channel-card">
+            <div class="kakao-channel-title">간병헬퍼 카톡 채널 추가하면<br>당첨 확률이 쑥! 올라가요</div>
+            <div style="font-size:13px; color:var(--ink-soft); margin:8px 0 12px; font-weight:600;">설계사 업무에 꼭 필요한 채널이에요</div>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:6px;">
+              <div class="kakao-bullet"><span>고객의 간병인보험 청구 서류, <b>365일 즉시 발급!</b></span></div>
+              <div class="kakao-bullet"><span>카카오 채널 · 전화로 <b>24시간 가족간병 신청</b></span></div>
+              <div class="kakao-bullet"><span>PC · 모바일 어디서나 <b>보험사 제출 서류 즉시 발급</b></span></div>
+              <div class="kakao-bullet"><span>이용할 때마다 <b>하루 1,000P 적립!</b></span></div>
+            </div>
+            <div class="kakao-callout">
+              간병인보험을 판매했다면<br>꼭 채널 추가하고 활용해보세요!
+            </div>
+            <a href="https://pf.kakao.com/_dIqxmxb" target="_blank" class="btn btn-kakao" style="font-size:14px; padding:14px; margin-bottom:10px;" onclick="onKakaoLinkClick()">
+              ${KAKAO_SVG} 간병헬퍼 카카오 채널 추가하기
+            </a>
+            <div style="text-align:center; font-size:11.5px; color:var(--ink-soft); margin-bottom:14px; font-weight:700;">
+              버튼을 눌러 채널을 추가해주세요!
+            </div>
+            <label class="check-wrap" onclick="handleCheckboxClick()">
+              <div class="check-box ${state.hasKakao?'checked':''}">${state.hasKakao?CHECK_SVG:''}</div>
+              <span class="check-text">채널을 추가했습니다 <span style="color:var(--pop-pink); font-weight:900;">→ 당첨확률 UP!</span></span>
+            </label>
+          </div>
+
+          <button class="btn btn-primary" onclick="submitApply()" ${state.submitting?'disabled':''} style="font-size:17px;">
+            ${state.submitting?'처리 중...':'응모 완료하기 ✨'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  return wrap;
+}
+
+// ── SCREEN: COMPLETE ──
+function renderComplete() {
+  const result = RESULTS[state.grade];
+  const oddsText = state.hasKakao?'당첨 확률 UP! ✦':'기본 확률 적용';
+  const oddsColor = state.hasKakao?'#16A34A':'var(--ink-soft)';
+  const wrap = document.createElement('div');
+  wrap.className = 'screen';
+  wrap.innerHTML = `
+    <div class="screen-pad">
+      <div class="card">
+        <div class="card-body">
+          <div style="text-align:center; padding:14px 0 18px;">
+            <span class="big-emoji">🎉</span>
+            <div style="font-family:var(--font-disp); font-size:26px; color:var(--ink); margin-top:14px; letter-spacing:-0.5px;">응모 완료!</div>
+            <div style="font-size:13.5px; color:var(--ink-soft); margin-top:8px; line-height:1.6; font-weight:600;">
+              추첨 결과는 등록하신 연락처로<br>개별 안내드립니다 📱
+            </div>
+          </div>
+          <div style="background:#FFF8D6; border:2.5px solid var(--ink); border-radius:16px; padding:16px; box-shadow:3px 3px 0 var(--ink); margin-bottom:22px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1.5px dashed var(--ink); margin-bottom:6px;">
+              <span style="font-size:13px; font-weight:700; color:var(--ink-soft);">나의 결과</span>
+              <span style="font-family:var(--font-disp); font-size:16px; color:var(--ink);">${result.emoji} ${result.title}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1.5px dashed var(--ink); margin-bottom:6px;">
+              <span style="font-size:13px; font-weight:700; color:var(--ink-soft);">적성 점수</span>
+              <span style="font-family:var(--font-disp); font-size:16px; color:${result.barColor};">${state.score} / 12</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0;">
+              <span style="font-size:13px; font-weight:700; color:var(--ink-soft);">당첨 확률</span>
+              <span style="font-family:var(--font-disp); font-size:16px; color:${oddsColor};">${oddsText}</span>
+            </div>
+          </div>
+          <div class="section-title">
+            <span class="section-title-dot"></span>
+            경품 안내
+          </div>
+          <div class="prize-list" style="margin-bottom:22px;">
+            <div class="prize-item gold"><div class="prize-rank">🥇</div><div class="prize-info"><div class="prize-name">에어팟 (4세대)</div><div class="prize-sub">1명</div></div></div>
+            <div class="prize-item silver"><div class="prize-rank">🥈</div><div class="prize-info"><div class="prize-name">배달의민족 쿠폰 3만원</div><div class="prize-sub">5명</div></div></div>
+            <div class="prize-item bronze"><div class="prize-rank">🥉</div><div class="prize-info"><div class="prize-name">스타벅스 상품권 1만원</div><div class="prize-sub">10명</div></div></div>
+          </div>
+          <button class="btn btn-kakao" onclick="shareKakao()" style="margin-bottom:10px;">${KAKAO_SVG} 결과 카카오톡으로 공유</button>
+          <a href="https://docs.thehelper.io/" target="_blank" class="btn btn-outline" style="display:block; text-decoration:none;">간병헬퍼 서비스 더 알아보기 →</a>
+        </div>
+      </div>
+    </div>`;
+  return wrap;
+}
+
+// ── ACTIONS ──
+function startTest() { Object.assign(state, {screen:'test', currentQ:0, answers:[], score:0, grade:'', weakAreas:[]}); render(); }
+let _answering = false;
+function selectAnswer(val, el) {
+  if (_answering) return;
+  _answering = true;
+  if (el) {
+    el.disabled = true;
+    el.closest('.options-wrap')?.querySelectorAll('.option').forEach(b => { b.disabled = true; });
+  }
+  const q = QUESTIONS[state.currentQ];
+  const correct = q.correct !== undefined ? q.correct : 1;
+  const isCorrect = val === correct;
+  state.answers.push(isCorrect ? 1 : 0);
+  setTimeout(() => {
+    _answering = false;
+    if (state.currentQ < QUESTIONS.length-1) { state.currentQ++; render(); }
+    else {
+      state.score = state.answers.reduce((s,v)=>s+v, 0);
+      state.grade = getGrade(state.score);
+      state.weakAreas = calcWeakAreas(state.answers);
+      state.screen = 'result'; render();
+    }
+  }, 150);
+}
+function goToApply() { state.screen='apply'; render(); }
+function updateForm(field, value) { state.form[field]=value; if(state.errors[field]) delete state.errors[field]; }
+function submitApply() {
+  const errors = validateForm(state.form);
+  state.errors = errors;
+  if (Object.keys(errors).length>0) { render(); return; }
+  state.submitting = true; render();
+  saveEntry({name:state.form.name, phone:state.form.phone, ga:state.form.ga, grade:state.grade, score:state.score, weakAreas:state.weakAreas, hasKakao:state.hasKakao});
+  setTimeout(()=>{ state.submitting=false; state.screen='complete'; render(); }, 800);
+}
+function onKakaoLinkClick() { state.kakaoLinkClicked = true; }
+function handleVisibilityChange() {
+  if (document.visibilityState !== 'visible') return;
+  if (state.screen !== 'apply') return;
+  if (!state.kakaoLinkClicked || state.hasKakao) return;
+  state.hasKakao = true; state.kakaoLinkClicked = false;
+  render(); showToast('✅ 채널 추가 확인! 당첨확률 UP!');
+}
+function toggleKakao() { state.hasKakao = !state.hasKakao; render(); }
+function handleCheckboxClick() {
+  if (!state.kakaoLinkClicked && !state.hasKakao) { showToast('먼저 카카오 채널 추가하기 버튼을 눌러주세요!'); return; }
+  state.hasKakao = !state.hasKakao; render();
+}
+function retryTest() { Object.assign(state, {screen:'intro', currentQ:0, answers:[], score:0, grade:'', weakAreas:[], hasKakao:false, kakaoLinkClicked:false, errors:{}}); render(); }
+
+function checkSharedParams() {
+  try {
+    const p = new URLSearchParams(window.location.search);
+    const grade = p.get('grade'); const score = parseInt(p.get('score'));
+    if (grade && RESULTS[grade] && !isNaN(score)) {
+      state.sharedGrade = grade; state.sharedScore = score; state.screen = 'shared';
+    }
+  } catch(e) { console.error('Param error:', e); }
+}
+
+document.addEventListener('visibilitychange', handleVisibilityChange);
+initKakao(); setOgMeta(); checkSharedParams();
+
+window.startTest = startTest;
+window.selectAnswer = selectAnswer;
+window.goToApply = goToApply;
+window.updateForm = updateForm;
+window.submitApply = submitApply;
+window.onKakaoLinkClick = onKakaoLinkClick;
+window.toggleKakao = toggleKakao;
+window.handleCheckboxClick = handleCheckboxClick;
+window.retryTest = retryTest;
+window.shareKakao = shareKakao;
+
+render();
+</script>
+</body>
+</html>
